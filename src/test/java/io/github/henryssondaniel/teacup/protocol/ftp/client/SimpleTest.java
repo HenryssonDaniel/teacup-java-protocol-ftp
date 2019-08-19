@@ -59,18 +59,6 @@ class SimpleTest {
   }
 
   @Test
-  void sendString() throws IOException {
-    var response = client.send(Command.ABOR.name());
-
-    assertThat(response.getCode()).isSameAs(CODE);
-    assertThat(response.getText()).isSameAs(TEXT);
-
-    verify(ftpClient).getReplyString();
-    verify(ftpClient).sendCommand(FTPCmd.ABOR, null);
-    verifyNoMoreInteractions(ftpClient);
-  }
-
-  @Test
   void sendWithCommand() throws IOException {
     var response = client.send(Command.ABORT, TEST);
 

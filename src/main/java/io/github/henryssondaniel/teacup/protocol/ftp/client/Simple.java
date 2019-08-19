@@ -43,22 +43,12 @@ class Simple implements Client {
   @Override
   public Response send(Command command, String argument) throws IOException {
     LOGGER.log(Level.FINE, "Send");
-    return send(command.name(), argument);
-  }
 
-  @Override
-  public Response send(String command) throws IOException {
-    LOGGER.log(Level.FINE, "Send");
-    return send(command, null);
-  }
+    var cmd = command.name();
 
-  @Override
-  public Response send(String command, String argument) throws IOException {
-    LOGGER.log(Level.FINE, "Send");
+    LOGGER.log(Level.INFO, getRequest(argument, cmd));
 
-    LOGGER.log(Level.INFO, getRequest(argument, command));
-
-    var code = ftp.sendCommand(FTPCmd.valueOf(command), argument);
+    var code = ftp.sendCommand(FTPCmd.valueOf(cmd), argument);
     var text = ftp.getReplyString();
 
     LOGGER.log(Level.INFO, () -> "Response: " + code + ' ' + text);
