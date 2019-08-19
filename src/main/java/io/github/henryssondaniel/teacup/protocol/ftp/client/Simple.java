@@ -17,6 +17,24 @@ class Simple implements Client {
   }
 
   @Override
+  public void connect(String hostname) throws IOException {
+    LOGGER.log(Level.FINE, "Connect");
+    connect(hostname, ftp.getDefaultPort());
+  }
+
+  @Override
+  public void connect(String hostname, int port) throws IOException {
+    LOGGER.log(Level.FINE, "Connect");
+    ftp.connect(hostname, port);
+  }
+
+  @Override
+  public void disconnect() throws IOException {
+    LOGGER.log(Level.FINE, "Disconnect");
+    ftp.disconnect();
+  }
+
+  @Override
   public Response send(Command command) throws IOException {
     LOGGER.log(Level.FINE, "Send");
     return send(command, null);

@@ -11,6 +11,32 @@ import java.io.IOException;
  */
 public interface Client {
   /**
+   * Connect.
+   *
+   * @param hostname the hostname
+   * @throws IOException If the socket could not be opened. In most cases you will only want to
+   *     catch IOException since SocketException is derived from it.
+   */
+  void connect(String hostname) throws IOException;
+
+  /**
+   * Connect.
+   *
+   * @param hostname the hostname
+   * @param port the port
+   * @throws IOException If the socket could not be opened. In most cases you will only want to
+   *     catch IOException since SocketException is derived from it.
+   */
+  void connect(String hostname, int port) throws IOException;
+
+  /**
+   * Disconnect.
+   *
+   * @throws IOException If an error occurs while disconnecting.
+   */
+  void disconnect() throws IOException;
+
+  /**
    * Send the command.
    *
    * @param command the command

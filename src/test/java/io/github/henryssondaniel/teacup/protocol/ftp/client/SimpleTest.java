@@ -3,6 +3,7 @@ package io.github.henryssondaniel.teacup.protocol.ftp.client;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import io.github.henryssondaniel.teacup.protocol.ftp.Client;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 class SimpleTest {
   private static final int CODE = 100;
+  private static final String TEST = "test";
   private static final String TEXT = "text";
 
   private final FTPClient ftpClient = mock(FTPClient.class);
@@ -24,7 +26,24 @@ class SimpleTest {
     when(ftpClient.getReplyString()).thenReturn(TEXT);
 
     when(ftpClient.sendCommand(FTPCmd.ABOR, null)).thenReturn(CODE);
-    when(ftpClient.sendCommand(FTPCmd.ABORT, "test")).thenReturn(CODE);
+    when(ftpClient.sendCommand(FTPCmd.ABORT, TEST)).thenReturn(CODE);
+  }
+
+  @Test
+  void connect() throws IOException {
+    var hostname = "localhost";
+    client.connect(hostname);
+
+    verify(ftpClient).getDefaultPort();
+    verify(ftpClient).connect(hostname, 0);
+    verifyNoMoreInteractions(ftpClient);
+  }
+
+  @Test
+  void disconnect() throws IOException {
+    client.disconnect();
+    verify(ftpClient).disconnect();
+    verifyNoMoreInteractions(ftpClient);
   }
 
   @Test
@@ -34,7 +53,9 @@ class SimpleTest {
     assertThat(response.getCode()).isSameAs(CODE);
     assertThat(response.getText()).isSameAs(TEXT);
 
+    verify(ftpClient).getReplyString();
     verify(ftpClient).sendCommand(FTPCmd.ABOR, null);
+    verifyNoMoreInteractions(ftpClient);
   }
 
   @Test
@@ -44,16 +65,20 @@ class SimpleTest {
     assertThat(response.getCode()).isSameAs(CODE);
     assertThat(response.getText()).isSameAs(TEXT);
 
+    verify(ftpClient).getReplyString();
     verify(ftpClient).sendCommand(FTPCmd.ABOR, null);
+    verifyNoMoreInteractions(ftpClient);
   }
 
   @Test
   void sendWithCommand() throws IOException {
-    var response = client.send(Command.ABORT, "test");
+    var response = client.send(Command.ABORT, TEST);
 
     assertThat(response.getCode()).isSameAs(CODE);
     assertThat(response.getText()).isSameAs(TEXT);
 
-    verify(ftpClient).sendCommand(FTPCmd.ABORT, "test");
+    verify(ftpClient).getReplyString();
+    verify(ftpClient).sendCommand(FTPCmd.ABORT, TEST);
+    verifyNoMoreInteractions(ftpClient);
   }
 }
