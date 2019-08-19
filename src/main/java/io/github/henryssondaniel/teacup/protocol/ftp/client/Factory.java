@@ -1,6 +1,7 @@
 package io.github.henryssondaniel.teacup.protocol.ftp.client;
 
 import io.github.henryssondaniel.teacup.protocol.ftp.Client;
+import org.apache.commons.net.ftp.FTPClient;
 
 /**
  * Factory class for {@link Client}.
@@ -17,6 +18,6 @@ public enum Factory {
    * @since 1.0
    */
   public static Client createClient() {
-    return new Simple();
+    return new Simple(new FTPClient());
   }
 }
