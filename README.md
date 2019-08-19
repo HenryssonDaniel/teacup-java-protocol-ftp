@@ -13,8 +13,8 @@ This makes it possible to test FTP with the framework, both the client and the s
 ## How ##
 Add this repository as a dependency.  
 
-The Simple interface holds all the functionality that the FTP client can do.  
+The Client interface holds all the functionality that the FTP client can do.  
 New clients can be created with the Factory class in the client package.
 
-The Simple interface holds all the functionality that the FTP server can do.  
+The Server interface holds all the functionality that the FTP server can do.  
 New servers can be created with the Factory class in the server package.
