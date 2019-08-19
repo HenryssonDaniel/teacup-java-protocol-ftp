@@ -9,4 +9,10 @@ class FactoryTest {
   void createClient() {
     assertThat(Factory.createClient()).isExactlyInstanceOf(Simple.class);
   }
+
+  @Test
+  void createConfigurationBuilder() {
+    assertThat(Factory.createConfigurationBuilder("test"))
+        .isExactlyInstanceOf(ConfigurationBuilderImpl.class);
+  }
 }

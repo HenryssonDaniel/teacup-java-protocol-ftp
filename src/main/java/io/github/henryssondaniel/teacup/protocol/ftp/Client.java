@@ -1,6 +1,7 @@
 package io.github.henryssondaniel.teacup.protocol.ftp;
 
 import io.github.henryssondaniel.teacup.protocol.ftp.client.Command;
+import io.github.henryssondaniel.teacup.protocol.ftp.client.Configuration;
 import io.github.henryssondaniel.teacup.protocol.ftp.client.Response;
 import java.io.IOException;
 
@@ -11,11 +12,20 @@ import java.io.IOException;
  */
 public interface Client {
   /**
+   * Configure the client with the configuration.
+   *
+   * @param configuration the configuration
+   * @since 1.0
+   */
+  void configure(Configuration configuration);
+
+  /**
    * Connect.
    *
    * @param hostname the hostname
    * @throws IOException If the socket could not be opened. In most cases you will only want to
    *     catch IOException since SocketException is derived from it.
+   * @since 1.0
    */
   void connect(String hostname) throws IOException;
 
@@ -26,6 +36,7 @@ public interface Client {
    * @param port the port
    * @throws IOException If the socket could not be opened. In most cases you will only want to
    *     catch IOException since SocketException is derived from it.
+   * @since 1.0
    */
   void connect(String hostname, int port) throws IOException;
 
@@ -33,6 +44,7 @@ public interface Client {
    * Disconnect.
    *
    * @throws IOException If an error occurs while disconnecting.
+   * @since 1.0
    */
   void disconnect() throws IOException;
 
