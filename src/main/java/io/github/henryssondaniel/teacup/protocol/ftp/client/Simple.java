@@ -38,17 +38,20 @@ class Simple implements Client {
   public Response send(String command, String argument) throws IOException {
     LOGGER.log(Level.FINE, "Send");
 
-    var stringBuilder = new StringBuilder("Request: " + command);
-
-    if (argument != null) stringBuilder.append(' ').append(argument);
-
-    LOGGER.log(Level.INFO, stringBuilder.toString());
+    LOGGER.log(Level.INFO, getRequest(argument, command));
 
     var code = ftp.sendCommand(FTPCmd.valueOf(command), argument);
     var text = ftp.getReplyString();
 
-    LOGGER.log(Level.INFO, "Response: " + code + ' ' + text);
+    LOGGER.log(Level.INFO, () -> "Response: " + code + ' ' + text);
 
     return new ResponseImpl(code, text);
+  }
+
+  private static String getRequest(String argument, String command) {
+    var stringBuilder = new StringBuilder("Request: " + command);
+    if (argument != null) stringBuilder.append(' ').append(argument);
+
+    return stringBuilder.toString();
   }
 }
