@@ -19,6 +19,7 @@ class Simple implements Client {
 
   @Override
   public void configure(Configuration configuration) {
+    LOGGER.log(Level.FINE, "Configure");
     ftpClient.configure(
         new FTPClientConfig(
             configuration.getSystemKey(),

@@ -5,7 +5,7 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.henryssondaniel.teacup.protocol/ftp.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22io.github.henryssondaniel.teacup.protocol%22%20AND%20a%3A%22ftp%22)
 [![Javadocs](https://www.javadoc.io/badge/io.github.henryssondaniel.teacup.protocol/ftp.svg)](https://www.javadoc.io/doc/io.github.henryssondaniel.teacup.protocol/ftp)
 ## What ##
-FTP support.  
+FTP/FTPS support.  
 
 There is also support for an FTP server.
 ## Why ##
@@ -14,6 +14,7 @@ This makes it possible to test FTP with the framework, both the client and the s
 Add this repository as a dependency.  
 
 The Client interface holds all the functionality that the FTP client can do.  
+The SecureClient interface holds all the functionality that the secure FTP client can do.  
 New clients can be created with the Factory class in the client package.
 
 The Server interface holds all the functionality that the FTP server can do.  
