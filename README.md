@@ -17,5 +17,5 @@ The Client interface holds all the functionality that the FTP client can do.
 The SecureClient interface holds all the functionality that the secure FTP client can do.  
 New clients can be created with the Factory class in the client package.
 
-The Server interface holds all the functionality that the FTP server can do.  
+The SimpleServer interface holds all the functionality that the FTP server can do.  
 New servers can be created with the Factory class in the server package.
