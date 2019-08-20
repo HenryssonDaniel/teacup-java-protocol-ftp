@@ -18,6 +18,7 @@ public enum Factory {
 
   private static final Logger LOGGER =
       io.github.henryssondaniel.teacup.core.logging.Factory.getLogger(Factory.class);
+  private static final String LOG_SECURE = "Create secure client";
 
   /**
    * Creates a new {@link Client}.
@@ -49,7 +50,7 @@ public enum Factory {
    * @since 1.0
    */
   public static SecureClient createSecureClient(boolean isImplicit) {
-    LOGGER.log(Level.FINE, "Create secure client");
+    LOGGER.log(Level.FINE, LOG_SECURE);
     return new Secure(new FTPSClient(isImplicit));
   }
 
@@ -62,7 +63,7 @@ public enum Factory {
    * @since 1.0
    */
   public static Client createSecureClient(boolean isImplicit, String protocol) {
-    LOGGER.log(Level.FINE, "Create secure client");
+    LOGGER.log(Level.FINE, LOG_SECURE);
     return new Secure(new FTPSClient(protocol, isImplicit));
   }
 
@@ -75,7 +76,7 @@ public enum Factory {
    * @since 1.0
    */
   public static SecureClient createSecureClient(boolean isImplicit, SSLContext sslContext) {
-    LOGGER.log(Level.FINE, "Create secure client");
+    LOGGER.log(Level.FINE, LOG_SECURE);
     return new Secure(new FTPSClient(isImplicit, sslContext));
   }
 }
