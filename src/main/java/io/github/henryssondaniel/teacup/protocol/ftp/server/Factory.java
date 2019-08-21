@@ -1,7 +1,5 @@
 package io.github.henryssondaniel.teacup.protocol.ftp.server;
 
-import static java.util.Collections.singletonMap;
-
 import io.github.henryssondaniel.teacup.protocol.ftp.SimpleServer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,11 +44,10 @@ public enum Factory {
     LOGGER.log(Level.FINE, "Create server");
 
     var ftpServerFactory = new FtpServerFactory();
+    ftpServerFactory.setCommandFactory(new DefaultCommandFactory());
 
     if (configuration != null)
       ftpServerFactory.addListener("default", createListener(configuration));
-
-    ftpServerFactory.setFtplets(singletonMap("default", new CommandListener()));
 
     return new Simple(ftpServerFactory.createServer());
   }
