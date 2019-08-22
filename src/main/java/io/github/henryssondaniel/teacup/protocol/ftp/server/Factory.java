@@ -44,6 +44,16 @@ public enum Factory {
   }
 
   /**
+   * Creates a new {@link ReplyBuilder}.
+   *
+   * @return the reply builder
+   * @since 1.0
+   */
+  public static ReplyBuilder createReplyBuilderBuilder(int code, String message) {
+    return new ReplyBuilderImpl(code, message);
+  }
+
+  /**
    * Creates a new {@link SimpleServer}.
    *
    * @return the simple server
