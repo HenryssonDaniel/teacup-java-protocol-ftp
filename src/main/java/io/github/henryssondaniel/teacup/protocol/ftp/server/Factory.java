@@ -43,13 +43,12 @@ public enum Factory {
   public static SimpleServer createServer(Configuration configuration) {
     LOGGER.log(Level.FINE, "Create server");
 
+    Handler handler = new HandlerImpl();
+
     var ftpServerFactory = new FtpServerFactory();
-    ftpServerFactory.setCommandFactory(new DefaultCommandFactory());
+    ftpServerFactory.addListener("default", createListener(configuration, handler));
 
-    if (configuration != null)
-      ftpServerFactory.addListener("default", createListener(configuration));
-
-    return new Simple(ftpServerFactory.createServer());
+    return new Simple(ftpServerFactory.createServer(), handler);
   }
 
   private static DataConnectionConfiguration createDataConnectionConfiguration(
@@ -82,25 +81,10 @@ public enum Factory {
     return dataConnectionConfigurationFactory.createDataConnectionConfiguration();
   }
 
-  private static Listener createListener(Configuration configuration) {
-    var listenerFactory = new ListenerFactory();
+  private static Listener createListener(Configuration configuration, Handler handler) {
+    ListenerFactory listenerFactory = new ListenerFactoryImpl(handler);
 
-    var clientConfiguration = configuration.getClientConfiguration();
-    if (clientConfiguration != null)
-      listenerFactory.setDataConnectionConfiguration(
-          createDataConnectionConfiguration(clientConfiguration));
-
-    var idleTimeout = configuration.getIdleTimeout();
-    if (idleTimeout != null) listenerFactory.setIdleTimeout(idleTimeout);
-
-    listenerFactory.setImplicitSsl(configuration.hasImplicitSsl());
-
-    var port = configuration.getPort();
-    if (port != null) listenerFactory.setPort(port);
-
-    listenerFactory.setServerAddress(configuration.getServerAddress());
-
-    setSslConfiguration(configuration, listenerFactory);
+    if (configuration != null) setConfiguration(configuration, listenerFactory);
 
     return listenerFactory.createListener();
   }
@@ -129,6 +113,26 @@ public enum Factory {
     if (truststoreType != null) sslConfigurationFactory.setTruststoreType(truststoreType);
 
     return sslConfigurationFactory.createSslConfiguration();
+  }
+
+  private static void setConfiguration(
+      Configuration configuration, ListenerFactory listenerFactory) {
+    var clientConfiguration = configuration.getClientConfiguration();
+    if (clientConfiguration != null)
+      listenerFactory.setDataConnectionConfiguration(
+          createDataConnectionConfiguration(clientConfiguration));
+
+    var idleTimeout = configuration.getIdleTimeout();
+    if (idleTimeout != null) listenerFactory.setIdleTimeout(idleTimeout);
+
+    listenerFactory.setImplicitSsl(configuration.hasImplicitSsl());
+
+    var port = configuration.getPort();
+    if (port != null) listenerFactory.setPort(port);
+
+    listenerFactory.setServerAddress(configuration.getServerAddress());
+
+    setSslConfiguration(configuration, listenerFactory);
   }
 
   private static void setKeyStore(

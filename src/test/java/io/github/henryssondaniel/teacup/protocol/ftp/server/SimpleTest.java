@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 class SimpleTest {
   private final FtpServer ftpServer = mock(FtpServer.class);
-  private final Server server = new Simple(ftpServer);
+  private final Server server = new Simple(ftpServer, null);
 
   @Test
   void setUp() throws FtpException {

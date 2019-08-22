@@ -1,0 +1,16 @@
+package io.github.henryssondaniel.teacup.protocol.ftp.server;
+
+/**
+ * Context to be used by a server.
+ *
+ * @since 1.0
+ */
+@FunctionalInterface
+public interface Context {
+  /**
+   * Returns the reply.
+   *
+   * @return the reply
+   */
+  Reply getReply();
+}
