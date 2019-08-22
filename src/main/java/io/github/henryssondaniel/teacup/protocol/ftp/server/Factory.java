@@ -33,6 +33,17 @@ public enum Factory {
   }
 
   /**
+   * Creates a new {@link ContextBuilder}.
+   *
+   * @param reply the reply
+   * @return the context builder
+   * @since 1.0
+   */
+  public static ContextBuilder createContextBuilder(Reply reply) {
+    return new ContextBuilderImpl(reply);
+  }
+
+  /**
    * Creates a new {@link SimpleServer}.
    *
    * @return the simple server
