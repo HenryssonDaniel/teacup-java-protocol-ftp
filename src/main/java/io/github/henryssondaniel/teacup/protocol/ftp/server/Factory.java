@@ -23,6 +23,16 @@ public enum Factory {
       io.github.henryssondaniel.teacup.core.logging.Factory.getLogger(Factory.class);
 
   /**
+   * Creates a new {@link ConfigurationBuilder}.
+   *
+   * @return the configuration builder
+   * @since 1.0
+   */
+  public static ConfigurationBuilder createConfigurationBuilder() {
+    return new ConfigurationBuilderImpl();
+  }
+
+  /**
    * Creates a new {@link SimpleServer}.
    *
    * @return the simple server
