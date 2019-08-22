@@ -34,6 +34,7 @@ public enum Factory {
   /**
    * Creates a new {@link ConfigurationBuilder}.
    *
+   * @param systemKey the system key
    * @return the configuration builder
    * @since 1.0
    */
