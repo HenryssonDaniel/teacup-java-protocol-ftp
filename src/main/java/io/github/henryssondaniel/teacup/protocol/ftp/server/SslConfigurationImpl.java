@@ -1,6 +1,7 @@
 package io.github.henryssondaniel.teacup.protocol.ftp.server;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,7 +31,7 @@ class SslConfigurationImpl implements SslConfigurationSetter {
   @Override
   public String[] getEnabledCipherSuites() {
     LOGGER.log(Level.FINE, "Get enabled cipher suites");
-    return enabledCipherSuites.clone();
+    return Optional.ofNullable(enabledCipherSuites).map(String[]::clone).orElse(null);
   }
 
   @Override
