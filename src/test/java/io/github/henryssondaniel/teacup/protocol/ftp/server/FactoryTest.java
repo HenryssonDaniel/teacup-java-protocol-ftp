@@ -40,6 +40,31 @@ class FactoryTest {
   }
 
   @Test
+  void createClientConfigurationBuilder() {
+    assertThat(Factory.createClientConfigurationBuilder())
+        .isExactlyInstanceOf(ClientConfigurationBuilderImpl.class);
+  }
+
+  @Test
+  void createConfigurationBuilder() {
+    assertThat(Factory.createConfigurationBuilder())
+        .isExactlyInstanceOf(ConfigurationBuilderImpl.class);
+  }
+
+  @Test
+  void createContextBuilder() {
+    var reply = mock(Reply.class);
+    assertThat(Factory.createContextBuilder(reply)).isExactlyInstanceOf(ContextBuilderImpl.class);
+    verifyZeroInteractions(reply);
+  }
+
+  @Test
+  void createReplyBuilder() {
+    assertThat(Factory.createReplyBuilder(1, "message"))
+        .isExactlyInstanceOf(ReplyBuilderImpl.class);
+  }
+
+  @Test
   void createServer() {
     when(configuration.getClientConfiguration()).thenReturn(null);
     when(configuration.getIdleTimeout()).thenReturn(null);
@@ -107,6 +132,12 @@ class FactoryTest {
   @Test
   void createServerWithoutConfiguration() {
     assertThat(Factory.createServer()).isExactlyInstanceOf(Simple.class);
+  }
+
+  @Test
+  void createSslConfigurationBuilder() {
+    assertThat(Factory.createSslConfigurationBuilder())
+        .isExactlyInstanceOf(SslConfigurationBuilderImpl.class);
   }
 
   private static File createKeystore(File folder)
