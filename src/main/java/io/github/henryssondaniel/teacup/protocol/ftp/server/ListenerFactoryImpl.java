@@ -17,6 +17,6 @@ class ListenerFactoryImpl extends ListenerFactory {
   @Override
   public Listener createListener() {
     LOGGER.log(Level.FINE, "Create listener");
-    return new ListenerImpl(handler, this);
+    return new ListenerImpl(handler, this, "handler");
   }
 }

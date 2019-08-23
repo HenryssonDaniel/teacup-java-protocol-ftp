@@ -8,10 +8,13 @@ import org.apache.ftpserver.listener.nio.NioListener;
 
 class ListenerImpl extends NioListener {
   private static final Logger LOGGER = Factory.getLogger(ListenerImpl.class);
+
+  private final String name;
   private final Handler newHandler;
+
   private boolean defaultHandler = true;
 
-  ListenerImpl(Handler handler, ListenerFactory listenerFactory) {
+  ListenerImpl(Handler handler, ListenerFactory listenerFactory, String name) {
     super(
         listenerFactory.getServerAddress(),
         listenerFactory.getPort(),
@@ -21,6 +24,7 @@ class ListenerImpl extends NioListener {
         listenerFactory.getIdleTimeout(),
         listenerFactory.getSessionFilter());
 
+    this.name = name;
     newHandler = handler;
   }
 
@@ -28,7 +32,7 @@ class ListenerImpl extends NioListener {
   public boolean isStopped() {
     if (defaultHandler) {
       try {
-        var field = getClass().getSuperclass().getDeclaredField("handler");
+        var field = getClass().getSuperclass().getDeclaredField(name);
         field.setAccessible(true);
         field.set(this, newHandler);
       } catch (IllegalAccessException | NoSuchFieldException e) {
