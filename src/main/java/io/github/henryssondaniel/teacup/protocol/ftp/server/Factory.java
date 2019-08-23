@@ -89,7 +89,8 @@ public enum Factory {
     Handler handler = new HandlerImpl();
 
     var ftpServerFactory = new FtpServerFactory();
-    ftpServerFactory.addListener("default", createListener(configuration, handler));
+    ftpServerFactory.addListener(
+        "default", createListener(configuration, new ListenerFactoryImpl(handler)));
 
     return new Simple(ftpServerFactory.createServer(), handler);
   }
@@ -134,9 +135,8 @@ public enum Factory {
     return dataConnectionConfigurationFactory.createDataConnectionConfiguration();
   }
 
-  private static Listener createListener(Configuration configuration, Handler handler) {
-    ListenerFactory listenerFactory = new ListenerFactoryImpl(handler);
-
+  private static Listener createListener(
+      Configuration configuration, ListenerFactory listenerFactory) {
     if (configuration != null) setConfiguration(configuration, listenerFactory);
 
     return listenerFactory.createListener();
