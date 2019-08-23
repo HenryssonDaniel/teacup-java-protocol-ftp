@@ -96,19 +96,15 @@ class Simple implements SimpleServer {
         && currentReply.getMessage().equals(reply.getMessage());
   }
 
-  private void retryAddSupplier(Context context, TimeoutSupplier timeoutSupplier)
-      throws InterruptedException {
-    synchronized (lock) {
-      while (waiting) lock.wait(1L);
-
-      waiting = true;
-      addSupplier(context, timeoutSupplier);
-    }
-  }
-
   private void tryAddSupplier(Context context, Reply reply, TimeoutSupplier timeoutSupplier)
       throws InterruptedException {
     if (isEquals(context.getReply(), reply)) handler.addTimeoutSupplier(timeoutSupplier);
-    else retryAddSupplier(context, timeoutSupplier);
+    else
+      synchronized (lock) {
+        while (waiting) lock.wait(1L);
+
+        waiting = true;
+        addSupplier(context, timeoutSupplier);
+      }
   }
 }
