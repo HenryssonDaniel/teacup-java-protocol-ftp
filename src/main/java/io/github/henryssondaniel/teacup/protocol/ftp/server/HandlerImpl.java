@@ -4,6 +4,7 @@ import io.github.henryssondaniel.teacup.core.logging.Factory;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.ftpserver.ftplet.DefaultFtpReply;
@@ -38,6 +39,8 @@ class HandlerImpl extends DefaultFtpHandler implements Handler {
 
   @Override
   public void messageReceived(FtpIoSession ftpIoSession, FtpRequest ftpRequest) {
+    Objects.requireNonNull(reply, "The reply is not set");
+
     ftpIoSession.resetState();
 
     var receivedTime = ftpRequest.getReceivedTime();
