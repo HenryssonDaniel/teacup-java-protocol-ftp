@@ -31,6 +31,7 @@ public enum Factory {
   public static ClientConfigurationBuilder createClientConfigurationBuilder() {
     return new ClientConfigurationBuilderImpl();
   }
+
   /**
    * Creates a new {@link ConfigurationBuilder}.
    *
@@ -91,6 +92,16 @@ public enum Factory {
     ftpServerFactory.addListener("default", createListener(configuration, handler));
 
     return new Simple(ftpServerFactory.createServer(), handler);
+  }
+
+  /**
+   * Creates a new {@link SslConfigurationBuilder}.
+   *
+   * @return the SSL configuration builder
+   * @since 1.0
+   */
+  public static SslConfigurationBuilder createSslConfigurationBuilder() {
+    return new SslConfigurationBuilderImpl();
   }
 
   private static DataConnectionConfiguration createDataConnectionConfiguration(
