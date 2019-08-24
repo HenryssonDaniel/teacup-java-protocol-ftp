@@ -6,11 +6,17 @@ import io.github.henryssondaniel.teacup.protocol.ftp.server.Request;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * Simple server.
+ *
+ * @since 1.0
+ */
 public interface SimpleServer extends Server {
   /**
    * Removes the supplier from the context.
    *
    * @param supplier the supplier
+   * @since 1.0
    */
   void removeSupplier(Supplier<List<Request>> supplier);
 
@@ -19,6 +25,7 @@ public interface SimpleServer extends Server {
    *
    * @param context the context
    * @return the supplier
+   * @since 1.0
    */
   Supplier<List<Request>> setContext(Context context);
 }

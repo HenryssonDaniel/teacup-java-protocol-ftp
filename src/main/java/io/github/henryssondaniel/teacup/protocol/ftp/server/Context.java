@@ -11,6 +11,7 @@ public interface Context {
    * Returns the reply.
    *
    * @return the reply
+   * @since 1.0
    */
   Reply getReply();
 }

@@ -29,6 +29,7 @@ public enum Factory {
    * @since 1.0
    */
   public static ClientConfigurationBuilder createClientConfigurationBuilder() {
+    LOGGER.log(Level.FINE, "Create client configuration builder");
     return new ClientConfigurationBuilderImpl();
   }
 
@@ -39,6 +40,7 @@ public enum Factory {
    * @since 1.0
    */
   public static ConfigurationBuilder createConfigurationBuilder() {
+    LOGGER.log(Level.FINE, "Create configuration builder");
     return new ConfigurationBuilderImpl();
   }
 
@@ -50,6 +52,7 @@ public enum Factory {
    * @since 1.0
    */
   public static ContextBuilder createContextBuilder(Reply reply) {
+    LOGGER.log(Level.FINE, "Create context builder");
     return new ContextBuilderImpl(reply);
   }
 
@@ -62,6 +65,7 @@ public enum Factory {
    * @since 1.0
    */
   public static ReplyBuilder createReplyBuilder(int code, String message) {
+    LOGGER.log(Level.FINE, "Create reply builder");
     return new ReplyBuilderImpl(code, message);
   }
 
@@ -102,6 +106,7 @@ public enum Factory {
    * @since 1.0
    */
   public static SslConfigurationBuilder createSslConfigurationBuilder() {
+    LOGGER.log(Level.FINE, "Create SSL configuration builder");
     return new SslConfigurationBuilderImpl();
   }
 
