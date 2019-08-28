@@ -5,13 +5,13 @@ import io.github.henryssondaniel.teacup.core.assertion.GenericIntegerAssert;
 import io.github.henryssondaniel.teacup.core.assertion.GenericStringAssert;
 
 /**
- * Reply builder.
+ * Response builder.
  *
  * @since 1.0
  */
-public interface ReplyBuilder
+public interface ResponseBuilder
     extends NodeBuilder<
-        io.github.henryssondaniel.teacup.protocol.ftp.server.Reply, Reply, ReplyBuilder> {
+        io.github.henryssondaniel.teacup.protocol.ftp.client.Response, Response, ResponseBuilder> {
   /**
    * Sets the code.
    *
@@ -19,14 +19,14 @@ public interface ReplyBuilder
    * @return the response builder
    * @since 1.0
    */
-  ReplyBuilder setCode(GenericIntegerAssert<?> code);
+  ResponseBuilder setCode(GenericIntegerAssert<?> code);
 
   /**
-   * Sets the message.
+   * Sets the text.
    *
-   * @param message the message
+   * @param text the text
    * @return the response builder
    * @since 1.0
    */
-  ReplyBuilder setMessage(GenericStringAssert<?> message);
+  ResponseBuilder setText(GenericStringAssert<?> text);
 }

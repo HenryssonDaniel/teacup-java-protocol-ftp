@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-class ReplyImplTest {
+class ResponseImplTest {
   private static final int CODE = 1;
   private static final String MESSAGE = "message";
 

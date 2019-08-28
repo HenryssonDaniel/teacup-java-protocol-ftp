@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-class ReplyBuilderImplTest {
+class ResponseBuilderImplTest {
   @Test
   void createImplementation() {
     assertThat(new ReplyBuilderImpl(1, "message").createImplementation())

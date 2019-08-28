@@ -12,9 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class ReplyBuilderImplTest {
-  @InjectMocks private final ReplyBuilder replyBuilder = new ReplyBuilderImpl();
-  @Mock private ReplySetter implementation;
+class ResponseBuilderImplTest {
+  @InjectMocks private final ResponseBuilder responseBuilder = new ResponseBuilderImpl();
+  @Mock private ResponseSetter implementation;
 
   @BeforeEach
   void beforeEach() {
@@ -23,22 +23,23 @@ class ReplyBuilderImplTest {
 
   @Test
   void createImplementation() {
-    assertThat(new ReplyBuilderImpl().createImplementation()).isExactlyInstanceOf(ReplyImpl.class);
+    assertThat(new ResponseBuilderImpl().createImplementation())
+        .isExactlyInstanceOf(ResponseImpl.class);
   }
 
   @Test
   void setCode() {
     var genericIntegerAssert = mock(GenericIntegerAssert.class);
 
-    assertThat(replyBuilder.setCode(genericIntegerAssert)).isSameAs(replyBuilder);
+    assertThat(responseBuilder.setCode(genericIntegerAssert)).isSameAs(responseBuilder);
     verify(implementation).setCode(genericIntegerAssert);
   }
 
   @Test
-  void setMessage() {
+  void setText() {
     var genericStringAssert = mock(GenericStringAssert.class);
 
-    assertThat(replyBuilder.setMessage(genericStringAssert)).isSameAs(replyBuilder);
-    verify(implementation).setMessage(genericStringAssert);
+    assertThat(responseBuilder.setText(genericStringAssert)).isSameAs(responseBuilder);
+    verify(implementation).setText(genericStringAssert);
   }
 }

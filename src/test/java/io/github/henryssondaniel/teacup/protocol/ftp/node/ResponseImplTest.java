@@ -7,38 +7,38 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import io.github.henryssondaniel.teacup.core.assertion.GenericIntegerAssert;
 import io.github.henryssondaniel.teacup.core.assertion.GenericStringAssert;
-import io.github.henryssondaniel.teacup.protocol.ftp.server.Reply;
+import io.github.henryssondaniel.teacup.protocol.ftp.client.Response;
 import org.junit.jupiter.api.Test;
 
-class ReplyImplTest {
-  private final Reply reply = mock(Reply.class);
-  private final ReplySetter replySetter = new ReplyImpl();
+class ResponseImplTest {
+  private final Response response = mock(Response.class);
+  private final ResponseSetter responseSetter = new ResponseImpl();
 
   @Test
-  void getMessage() {
+  void getText() {
     GenericStringAssert<?> genericStringAssert = mock(GenericStringAssert.class);
 
-    replySetter.setMessage(genericStringAssert);
-    replySetter.verify(reply);
+    responseSetter.setText(genericStringAssert);
+    responseSetter.verify(response);
 
-    verify(genericStringAssert).verify(reply.getMessage());
+    verify(genericStringAssert).verify(response.getText());
     verifyNoMoreInteractions(genericStringAssert);
 
-    verify(reply, times(2)).getMessage();
-    verifyNoMoreInteractions(reply);
+    verify(response, times(2)).getText();
+    verifyNoMoreInteractions(response);
   }
 
   @Test
   void setCode() {
     GenericIntegerAssert<?> genericIntegerAssert = mock(GenericIntegerAssert.class);
 
-    replySetter.setCode(genericIntegerAssert);
-    replySetter.verify(reply);
+    responseSetter.setCode(genericIntegerAssert);
+    responseSetter.verify(response);
 
-    verify(genericIntegerAssert).verify(reply.getCode());
+    verify(genericIntegerAssert).verify(response.getCode());
     verifyNoMoreInteractions(genericIntegerAssert);
 
-    verify(reply, times(2)).getCode();
-    verifyNoMoreInteractions(reply);
+    verify(response, times(2)).getCode();
+    verifyNoMoreInteractions(response);
   }
 }

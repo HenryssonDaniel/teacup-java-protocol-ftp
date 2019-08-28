@@ -4,12 +4,12 @@ import io.github.henryssondaniel.teacup.core.assertion.GenericIntegerAssert;
 import io.github.henryssondaniel.teacup.core.assertion.GenericObjectAssert;
 import io.github.henryssondaniel.teacup.core.assertion.GenericStringAssert;
 
-interface ReplySetter
-    extends Reply,
+interface ResponseSetter
+    extends Response,
         Setter<
-            io.github.henryssondaniel.teacup.protocol.ftp.server.Reply,
-            GenericObjectAssert<io.github.henryssondaniel.teacup.protocol.ftp.server.Reply, ?>> {
+            io.github.henryssondaniel.teacup.protocol.ftp.client.Response,
+            GenericObjectAssert<io.github.henryssondaniel.teacup.protocol.ftp.client.Response, ?>> {
   void setCode(GenericIntegerAssert<?> code);
 
-  void setMessage(GenericStringAssert<?> message);
+  void setText(GenericStringAssert<?> text);
 }
