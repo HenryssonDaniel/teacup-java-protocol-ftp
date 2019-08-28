@@ -15,20 +15,6 @@ class ResponseImplTest {
   private final ResponseSetter responseSetter = new ResponseImpl();
 
   @Test
-  void getText() {
-    GenericStringAssert<?> genericStringAssert = mock(GenericStringAssert.class);
-
-    responseSetter.setText(genericStringAssert);
-    responseSetter.verify(response);
-
-    verify(genericStringAssert).verify(response.getText());
-    verifyNoMoreInteractions(genericStringAssert);
-
-    verify(response, times(2)).getText();
-    verifyNoMoreInteractions(response);
-  }
-
-  @Test
   void setCode() {
     GenericIntegerAssert<?> genericIntegerAssert = mock(GenericIntegerAssert.class);
 
@@ -39,6 +25,20 @@ class ResponseImplTest {
     verifyNoMoreInteractions(genericIntegerAssert);
 
     verify(response, times(2)).getCode();
+    verifyNoMoreInteractions(response);
+  }
+
+  @Test
+  void setText() {
+    GenericStringAssert<?> genericStringAssert = mock(GenericStringAssert.class);
+
+    responseSetter.setText(genericStringAssert);
+    responseSetter.verify(response);
+
+    verify(genericStringAssert).verify(response.getText());
+    verifyNoMoreInteractions(genericStringAssert);
+
+    verify(response, times(2)).getText();
     verifyNoMoreInteractions(response);
   }
 }
