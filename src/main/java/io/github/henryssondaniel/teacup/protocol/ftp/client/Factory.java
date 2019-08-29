@@ -63,7 +63,7 @@ public enum Factory {
    * @return the secure client
    * @since 1.0
    */
-  public static Client createSecureClient(boolean isImplicit, String protocol) {
+  public static SecureClient createSecureClient(boolean isImplicit, String protocol) {
     LOGGER.log(Level.FINE, LOG_SECURE);
     return new Secure(new FTPSClient(protocol, isImplicit));
   }

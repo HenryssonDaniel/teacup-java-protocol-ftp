@@ -6,21 +6,14 @@ import java.security.NoSuchAlgorithmException;
 import javax.net.ssl.SSLContext;
 import org.junit.jupiter.api.Test;
 
-class FactoryTest {
-  @Test
-  void createClient() {
-    assertThat(Factory.createClient()).isExactlyInstanceOf(Simple.class);
-  }
-
-  @Test
-  void createConfigurationBuilder() {
-    assertThat(Factory.createConfigurationBuilder("test"))
-        .isExactlyInstanceOf(ConfigurationBuilderImpl.class);
-  }
-
+class SecureTest {
   @Test
   void createSecureClient() {
-    assertThat(Factory.createSecureClient(false)).isExactlyInstanceOf(Secure.class);
+    var secureClient = Factory.createSecureClient(false);
+    secureClient.setEndpointCheckingEnabled(true);
+    secureClient.setHostnameVerifier((hostname, sslSession) -> false);
+
+    assertThat(secureClient).isExactlyInstanceOf(Secure.class);
   }
 
   @Test
