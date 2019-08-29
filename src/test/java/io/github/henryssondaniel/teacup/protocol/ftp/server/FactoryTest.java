@@ -100,7 +100,7 @@ class FactoryTest {
   }
 
   @Test
-  void createServerWithConfiguration2()
+  void createServerWithConfigurationAndSsl()
       throws CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException {
     var folder = createRes();
     var file = createKeystore(folder);
