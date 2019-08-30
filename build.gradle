@@ -84,7 +84,7 @@ publishing {
 
             pom {
                 name = project.group + ':' + project.name
-                description = 'Teacup client/server FTP support'
+                description = 'Teacup client/server FTP and FTPS support'
                 url = 'https://github.com/HenryssonDaniel/teacup-java-protocol-ftp'
 
                 licenses {
