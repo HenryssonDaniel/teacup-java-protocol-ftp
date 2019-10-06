@@ -11,7 +11,12 @@ class ResponseTest {
 
   @Test
   void createResponseBuilder() {
+    Response response = new TestResponse();
+
     Factory.createResponseBuilder()
+        .setAssertion(
+            io.github.henryssondaniel.teacup.core.assertion.Factory.<Response>createObjectAssert()
+                .isSameAs(response))
         .setCode(
             io.github.henryssondaniel.teacup.core.assertion.Factory.createIntegerAssert()
                 .isEqualTo(CODE))
@@ -19,7 +24,7 @@ class ResponseTest {
             io.github.henryssondaniel.teacup.core.assertion.Factory.createStringAssert()
                 .isEqualTo(TEXT))
         .build()
-        .verify(new TestResponse());
+        .verify(response);
   }
 
   private static class TestResponse implements Response {

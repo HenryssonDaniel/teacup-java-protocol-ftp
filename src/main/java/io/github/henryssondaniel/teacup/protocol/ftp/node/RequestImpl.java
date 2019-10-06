@@ -38,8 +38,14 @@ class RequestImpl extends SetterImpl<Request, GenericObjectAssert<Request, ?>>
   public void verify(Request request) {
     LOGGER.log(Level.FINE, "Verify");
 
+    verifyAssertion(getAssertion(), request);
     if (argument != null) argument.verify(request.getArgument());
     if (command != null) command.verify(request.getCommand());
     if (receivedTime != null) receivedTime.verify(request.getReceivedTime());
+  }
+
+  private static void verifyAssertion(
+      GenericObjectAssert<? super Request, ?> objectAssert, Request request) {
+    if (objectAssert != null) objectAssert.verify(request);
   }
 }

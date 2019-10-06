@@ -14,10 +14,15 @@ class RequestTest {
 
   @Test
   void createRequestBuilder() {
+    Request request = new TestRequest();
+
     Factory.createRequestBuilder()
         .setArgument(
             io.github.henryssondaniel.teacup.core.assertion.Factory.createStringAssert()
                 .isEqualTo(ARGUMENT))
+        .setAssertion(
+            io.github.henryssondaniel.teacup.core.assertion.Factory.<Request>createObjectAssert()
+                .isSameAs(request))
         .setCommand(
             io.github.henryssondaniel.teacup.core.assertion.Factory.createStringAssert()
                 .isEqualTo(COMMAND))
@@ -25,7 +30,7 @@ class RequestTest {
             io.github.henryssondaniel.teacup.core.assertion.Factory.createLongAssert()
                 .isEqualTo(TIME))
         .build()
-        .verify(new TestRequest());
+        .verify(request);
   }
 
   private static class TestRequest implements Request {
