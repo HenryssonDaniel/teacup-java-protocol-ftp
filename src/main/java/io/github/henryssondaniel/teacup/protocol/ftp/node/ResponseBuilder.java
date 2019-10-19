@@ -1,8 +1,8 @@
 package io.github.henryssondaniel.teacup.protocol.ftp.node;
 
-import io.github.henryssondaniel.teacup.core.NodeBuilder;
 import io.github.henryssondaniel.teacup.core.assertion.GenericIntegerAssert;
 import io.github.henryssondaniel.teacup.core.assertion.GenericStringAssert;
+import io.github.henryssondaniel.teacup.protocol.NodeBuilder;
 
 /**
  * Response builder.

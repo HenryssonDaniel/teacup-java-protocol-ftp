@@ -1,6 +1,6 @@
 package io.github.henryssondaniel.teacup.protocol.ftp.client;
 
-import io.github.henryssondaniel.teacup.core.Builder;
+import io.github.henryssondaniel.teacup.protocol.Builder;
 
 /**
  * Configuration builder interface.

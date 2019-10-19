@@ -1,6 +1,6 @@
 package io.github.henryssondaniel.teacup.protocol.ftp.server;
 
-import io.github.henryssondaniel.teacup.core.DefaultBuilder;
+import io.github.henryssondaniel.teacup.protocol.DefaultBuilder;
 
 class ReplyBuilderImpl extends DefaultBuilder<Reply, Reply> implements ReplyBuilder {
   private final int code;

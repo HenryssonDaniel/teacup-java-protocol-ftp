@@ -1,6 +1,6 @@
 package io.github.henryssondaniel.teacup.protocol.ftp.server;
 
-import io.github.henryssondaniel.teacup.core.DefaultBuilder;
+import io.github.henryssondaniel.teacup.protocol.DefaultBuilder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
