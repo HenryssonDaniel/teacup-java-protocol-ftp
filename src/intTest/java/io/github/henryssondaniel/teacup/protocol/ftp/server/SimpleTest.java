@@ -2,7 +2,7 @@ package io.github.henryssondaniel.teacup.protocol.ftp.server;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.github.henryssondaniel.teacup.protocol.ftp.SimpleServer;
+import io.github.henryssondaniel.teacup.protocol.Server;
 import io.github.henryssondaniel.teacup.protocol.ftp.client.Command;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -76,7 +76,8 @@ class SimpleTest {
     return folder;
   }
 
-  private static void verifyServer(SimpleServer simpleServer) throws IOException {
+  private static void verifyServer(Server<? super Context, Request> simpleServer)
+      throws IOException {
     simpleServer.setUp();
 
     var supplier =

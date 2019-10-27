@@ -6,11 +6,13 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-import io.github.henryssondaniel.teacup.protocol.ftp.SimpleServer;
+import io.github.henryssondaniel.teacup.protocol.Server;
+import io.github.henryssondaniel.teacup.protocol.server.TimeoutSupplier;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
@@ -28,11 +30,11 @@ class SimpleTest {
   private final Object lock = new Object();
   private final Reply reply = mock(Reply.class);
   private final Reply replyDifferent = mock(Reply.class);
-  private final SimpleServer simpleServer = new Simple(ftpServer, handler);
-  private final TimeoutSupplier timeoutSupplier = mock(TimeoutSupplier.class);
+  private final Server<Context, Request> simpleServer = new Simple(ftpServer, handler);
   private final Object verifyLock = new Object();
 
   @Mock private Supplier<List<Request>> supplierNonExisting;
+  @Mock private TimeoutSupplier<Request> timeoutSupplier;
   private boolean waitVerify = true;
   private boolean waiting = true;
 
@@ -63,30 +65,11 @@ class SimpleTest {
     verify(context).getReply();
     verifyNoMoreInteractions(context);
 
-    verify(handler).addTimeoutSupplier(any(TimeoutSupplier.class));
-    verify(handler).getReply();
+    verify(handler).addTimeoutSupplier(any());
     verify(handler).setReply(reply);
     verifyNoMoreInteractions(handler);
 
-    verifyZeroInteractions(reply);
-  }
-
-  @Test
-  void setContextWhenDuplicateContext() {
-    when(handler.getReply()).thenReturn(reply);
-
-    simpleServer.setContext(context);
-
-    verify(context).getReply();
-    verifyNoMoreInteractions(context);
-
-    verify(handler).addTimeoutSupplier(any(TimeoutSupplier.class));
-    verify(handler).getReply();
-    verifyNoMoreInteractions(handler);
-
-    verify(reply, times(2)).getCode();
-    verify(reply, times(2)).getMessage();
-    verifyNoMoreInteractions(reply);
+    verifyNoInteractions(reply);
   }
 
   @Test
@@ -110,10 +93,10 @@ class SimpleTest {
       verify(context, times(2)).getReply();
       verifyNoMoreInteractions(context);
 
-      verify(handler).addTimeoutSupplier(any(TimeoutSupplier.class));
-      verify(handler, times(2)).getReply();
+      verify(handler).addTimeoutSupplier(any());
+      verify(handler).getReply();
       verify(handler).getTimeoutSuppliers();
-      verify(handler).removeTimeoutSupplier(any(TimeoutSupplier.class));
+      verify(handler).removeTimeoutSupplier(any());
       verify(handler).setReply(reply);
       verifyNoMoreInteractions(handler);
 
@@ -123,38 +106,6 @@ class SimpleTest {
 
       verify(replyDifferent).getCode();
       verify(replyDifferent).getMessage();
-      verifyNoMoreInteractions(replyDifferent);
-    }
-  }
-
-  @Test
-  void setContextWhenReply() throws InterruptedException {
-    var supplier = simpleServer.setContext(context);
-
-    when(handler.getReply()).thenReturn(replyDifferent, reply);
-
-    createThread(2);
-    removeSupplier(supplier);
-
-    synchronized (verifyLock) {
-      while (waitVerify) verifyLock.wait(1L);
-
-      verify(context, times(3)).getReply();
-      verifyNoMoreInteractions(context);
-
-      verify(handler, times(2)).addTimeoutSupplier(any(TimeoutSupplier.class));
-      verify(handler, times(3)).getReply();
-      verify(handler).getTimeoutSuppliers();
-      verify(handler).removeTimeoutSupplier(any(TimeoutSupplier.class));
-      verify(handler).setReply(null);
-      verify(handler).setReply(reply);
-      verifyNoMoreInteractions(handler);
-
-      verify(reply, times(3)).getCode();
-      verify(reply, times(2)).getMessage();
-      verifyNoMoreInteractions(reply);
-
-      verify(replyDifferent).getCode();
       verifyNoMoreInteractions(replyDifferent);
     }
   }

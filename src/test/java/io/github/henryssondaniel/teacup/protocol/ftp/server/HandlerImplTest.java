@@ -5,24 +5,34 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.MockitoAnnotations.initMocks;
 
+import io.github.henryssondaniel.teacup.protocol.server.TimeoutSupplier;
 import org.apache.ftpserver.ftplet.DefaultFtpReply;
 import org.apache.ftpserver.ftplet.FtpRequest;
 import org.apache.ftpserver.impl.FtpIoSession;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 class HandlerImplTest {
   private final FtpIoSession ftpIoSession = mock(FtpIoSession.class);
   private final FtpRequest ftpRequest = mock(FtpRequest.class);
   private final Handler handler = new HandlerImpl();
-  private final TimeoutSupplier timeoutSupplier = mock(TimeoutSupplier.class);
+
+  @Mock private TimeoutSupplier<Request> timeoutSupplier;
 
   @Test
   void addTimeoutSupplier() {
     handler.addTimeoutSupplier(timeoutSupplier);
     assertThat(handler.getTimeoutSuppliers()).containsExactly(timeoutSupplier);
+  }
+
+  @BeforeEach
+  void beforeEach() {
+    initMocks(this);
   }
 
   @Test
@@ -62,8 +72,8 @@ class HandlerImplTest {
     assertThatNullPointerException()
         .isThrownBy(() -> handler.messageReceived(ftpIoSession, ftpRequest));
 
-    verifyZeroInteractions(ftpIoSession);
-    verifyZeroInteractions(ftpRequest);
+    verifyNoInteractions(ftpIoSession);
+    verifyNoInteractions(ftpRequest);
   }
 
   @Test

@@ -2,8 +2,10 @@ package io.github.henryssondaniel.teacup.protocol.ftp.client;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.github.henryssondaniel.teacup.protocol.Server;
 import io.github.henryssondaniel.teacup.protocol.ftp.Client;
-import io.github.henryssondaniel.teacup.protocol.ftp.SimpleServer;
+import io.github.henryssondaniel.teacup.protocol.ftp.server.Context;
+import io.github.henryssondaniel.teacup.protocol.ftp.server.Request;
 import java.io.IOException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +19,7 @@ class SimpleTest {
 
   private final Client client = Factory.createClient();
 
-  private SimpleServer simpleServer;
+  private Server<Context, Request> simpleServer;
 
   @AfterEach
   void afterEach() throws IOException {

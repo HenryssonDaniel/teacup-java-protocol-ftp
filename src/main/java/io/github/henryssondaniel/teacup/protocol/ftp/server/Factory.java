@@ -1,6 +1,6 @@
 package io.github.henryssondaniel.teacup.protocol.ftp.server;
 
-import io.github.henryssondaniel.teacup.protocol.ftp.SimpleServer;
+import io.github.henryssondaniel.teacup.protocol.Server;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.ftpserver.DataConnectionConfiguration;
@@ -70,24 +70,24 @@ public enum Factory {
   }
 
   /**
-   * Creates a new {@link SimpleServer}.
+   * Creates a new {@link Server}.
    *
    * @return the simple server
    * @since 1.0
    */
-  public static SimpleServer createServer() {
+  public static Server<Context, Request> createServer() {
     LOGGER.log(Level.FINE, "Create server");
     return createServer(null);
   }
 
   /**
-   * Creates a new {@link SimpleServer}.
+   * Creates a new {@link Server}.
    *
    * @param configuration the configuration
    * @return the simple server
    * @since 1.0
    */
-  public static SimpleServer createServer(Configuration configuration) {
+  public static Server<Context, Request> createServer(Configuration configuration) {
     LOGGER.log(Level.FINE, "Create server");
 
     Handler handler = new HandlerImpl();

@@ -1,6 +1,7 @@
 package io.github.henryssondaniel.teacup.protocol.ftp.server;
 
 import io.github.henryssondaniel.teacup.core.logging.Factory;
+import io.github.henryssondaniel.teacup.protocol.server.TimeoutSupplier;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,12 +17,12 @@ class HandlerImpl extends DefaultFtpHandler implements Handler {
   private static final Logger LOGGER = Factory.getLogger(HandlerImpl.class);
   private static final String MESSAGE = "{0}ing the timeout supplier{1}";
 
-  private final List<TimeoutSupplier> timeoutSuppliers = new LinkedList<>();
+  private final List<TimeoutSupplier<Request>> timeoutSuppliers = new LinkedList<>();
 
   private Reply reply;
 
   @Override
-  public void addTimeoutSupplier(TimeoutSupplier timeoutSupplier) {
+  public void addTimeoutSupplier(TimeoutSupplier<Request> timeoutSupplier) {
     LOGGER.log(Level.FINE, MESSAGE, new Object[] {"Add", ""});
     timeoutSuppliers.add(timeoutSupplier);
   }
@@ -32,7 +33,7 @@ class HandlerImpl extends DefaultFtpHandler implements Handler {
   }
 
   @Override
-  public List<TimeoutSupplier> getTimeoutSuppliers() {
+  public List<TimeoutSupplier<Request>> getTimeoutSuppliers() {
     LOGGER.log(Level.FINE, MESSAGE, new Object[] {"Sett", "s"});
     return new ArrayList<>(timeoutSuppliers);
   }
@@ -55,7 +56,7 @@ class HandlerImpl extends DefaultFtpHandler implements Handler {
   }
 
   @Override
-  public void removeTimeoutSupplier(TimeoutSupplier timeoutSupplier) {
+  public void removeTimeoutSupplier(TimeoutSupplier<Request> timeoutSupplier) {
     LOGGER.log(Level.FINE, MESSAGE, new Object[] {"Remov", ""});
     timeoutSuppliers.remove(timeoutSupplier);
   }
