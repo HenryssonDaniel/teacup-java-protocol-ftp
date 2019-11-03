@@ -4,7 +4,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -12,8 +11,6 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import io.github.henryssondaniel.teacup.protocol.Server;
-import io.github.henryssondaniel.teacup.protocol.server.TimeoutSupplier;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 import org.apache.ftpserver.FtpServer;
@@ -34,7 +31,6 @@ class SimpleTest {
   private final Object verifyLock = new Object();
 
   @Mock private Supplier<List<Request>> supplierNonExisting;
-  @Mock private TimeoutSupplier<Request> timeoutSupplier;
   private boolean waitVerify = true;
   private boolean waiting = true;
 
@@ -53,61 +49,17 @@ class SimpleTest {
   }
 
   @Test
-  void removeSupplierWhenTimeoutSupplier() {
-    simpleServer.removeSupplier(timeoutSupplier);
-    verify(timeoutSupplier).stop();
-  }
-
-  @Test
   void setContext() {
     simpleServer.setContext(context);
 
     verify(context).getReply();
     verifyNoMoreInteractions(context);
 
-    verify(handler).addTimeoutSupplier(any());
+    verify(handler).setHandler(any());
     verify(handler).setReply(reply);
     verifyNoMoreInteractions(handler);
 
     verifyNoInteractions(reply);
-  }
-
-  @Test
-  void setContextWhenInterrupted() throws InterruptedException {
-    var supplier = simpleServer.setContext(context);
-
-    when(handler.getReply()).thenReturn(replyDifferent);
-    when(replyDifferent.getMessage()).thenReturn("other message");
-
-    var thread = createThread(0);
-
-    doAnswer(invocationOnMock -> waiting(Collections.singletonList(timeoutSupplier)))
-        .when(handler)
-        .getTimeoutSuppliers();
-    removeSupplier(supplier);
-    interrupt(thread);
-
-    synchronized (verifyLock) {
-      while (waitVerify) verifyLock.wait(1L);
-
-      verify(context, times(2)).getReply();
-      verifyNoMoreInteractions(context);
-
-      verify(handler).addTimeoutSupplier(any());
-      verify(handler).getReply();
-      verify(handler).getTimeoutSuppliers();
-      verify(handler).removeTimeoutSupplier(any());
-      verify(handler).setReply(reply);
-      verifyNoMoreInteractions(handler);
-
-      verify(reply).getCode();
-      verify(reply).getMessage();
-      verifyNoMoreInteractions(reply);
-
-      verify(replyDifferent).getCode();
-      verify(replyDifferent).getMessage();
-      verifyNoMoreInteractions(replyDifferent);
-    }
   }
 
   @Test

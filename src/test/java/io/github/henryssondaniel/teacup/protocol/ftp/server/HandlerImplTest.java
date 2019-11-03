@@ -9,26 +9,16 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import io.github.henryssondaniel.teacup.protocol.server.TimeoutSupplier;
 import org.apache.ftpserver.ftplet.DefaultFtpReply;
 import org.apache.ftpserver.ftplet.FtpRequest;
 import org.apache.ftpserver.impl.FtpIoSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 class HandlerImplTest {
   private final FtpIoSession ftpIoSession = mock(FtpIoSession.class);
   private final FtpRequest ftpRequest = mock(FtpRequest.class);
   private final Handler handler = new HandlerImpl();
-
-  @Mock private TimeoutSupplier<Request> timeoutSupplier;
-
-  @Test
-  void addTimeoutSupplier() {
-    handler.addTimeoutSupplier(timeoutSupplier);
-    assertThat(handler.getTimeoutSuppliers()).containsExactly(timeoutSupplier);
-  }
 
   @BeforeEach
   void beforeEach() {
@@ -41,30 +31,19 @@ class HandlerImplTest {
   }
 
   @Test
-  void getTimeoutSuppliers() {
-    assertThat(handler.getTimeoutSuppliers()).isEmpty();
-  }
-
-  @Test
   void messageReceived() throws Exception {
     var reply = mock(Reply.class);
     handler.setReply(reply);
 
-    handler.addTimeoutSupplier(timeoutSupplier);
     handler.messageReceived(ftpIoSession, ftpRequest);
 
     verify(ftpIoSession).resetState();
     verify(ftpIoSession).write(any(DefaultFtpReply.class));
     verifyNoMoreInteractions(ftpIoSession);
 
-    verify(ftpRequest).getArgument();
-    verify(ftpRequest).getCommand();
     verify(ftpRequest).getReceivedTime();
     verify(ftpRequest).getRequestLine();
     verifyNoMoreInteractions(ftpRequest);
-
-    verify(timeoutSupplier).addRequest(any(Request.class));
-    verifyNoMoreInteractions(timeoutSupplier);
   }
 
   @Test
@@ -74,12 +53,5 @@ class HandlerImplTest {
 
     verifyNoInteractions(ftpIoSession);
     verifyNoInteractions(ftpRequest);
-  }
-
-  @Test
-  void removeTimeoutSupplier() {
-    handler.addTimeoutSupplier(timeoutSupplier);
-    handler.removeTimeoutSupplier(timeoutSupplier);
-    assertThat(handler.getTimeoutSuppliers()).isEmpty();
   }
 }

@@ -2,7 +2,6 @@ package io.github.henryssondaniel.teacup.protocol.ftp.server;
 
 import io.github.henryssondaniel.teacup.core.logging.Factory;
 import io.github.henryssondaniel.teacup.protocol.server.Base;
-import io.github.henryssondaniel.teacup.protocol.server.TimeoutSupplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.ftpserver.FtpServer;
@@ -38,16 +37,11 @@ class Simple extends Base<Context, Handler, Request> {
 
   @Override
   protected Handler createProtocolContext(
-      Context context, TimeoutSupplier<Request> timeoutSupplier) {
-    handler.addTimeoutSupplier(timeoutSupplier);
+      Context context, io.github.henryssondaniel.teacup.protocol.server.Handler<Request> handler1) {
+    handler.setHandler(handler1);
     handler.setReply(context.getReply());
 
     return handler;
-  }
-
-  @Override
-  protected Handler getHandler(Handler protocolContext) {
-    return protocolContext;
   }
 
   @Override

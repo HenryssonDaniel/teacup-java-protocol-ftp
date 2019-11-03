@@ -1,10 +1,6 @@
 package io.github.henryssondaniel.teacup.protocol.ftp.server;
 
 import io.github.henryssondaniel.teacup.core.logging.Factory;
-import io.github.henryssondaniel.teacup.protocol.server.TimeoutSupplier;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,27 +11,13 @@ import org.apache.ftpserver.impl.FtpIoSession;
 
 class HandlerImpl extends DefaultFtpHandler implements Handler {
   private static final Logger LOGGER = Factory.getLogger(HandlerImpl.class);
-  private static final String MESSAGE = "{0}ing the timeout supplier{1}";
 
-  private final List<TimeoutSupplier<Request>> timeoutSuppliers = new LinkedList<>();
-
+  private io.github.henryssondaniel.teacup.protocol.server.Handler<? super Request> handler;
   private Reply reply;
-
-  @Override
-  public void addTimeoutSupplier(TimeoutSupplier<Request> timeoutSupplier) {
-    LOGGER.log(Level.FINE, MESSAGE, new Object[] {"Add", ""});
-    timeoutSuppliers.add(timeoutSupplier);
-  }
 
   @Override
   public Reply getReply() {
     return reply;
-  }
-
-  @Override
-  public List<TimeoutSupplier<Request>> getTimeoutSuppliers() {
-    LOGGER.log(Level.FINE, MESSAGE, new Object[] {"Sett", "s"});
-    return new ArrayList<>(timeoutSuppliers);
   }
 
   @Override
@@ -48,17 +30,17 @@ class HandlerImpl extends DefaultFtpHandler implements Handler {
 
     LOGGER.log(Level.INFO, () -> "Request: " + receivedTime + ' ' + ftpRequest.getRequestLine());
 
-    Request request =
-        new RequestImpl(ftpRequest.getArgument(), ftpRequest.getCommand(), receivedTime);
-    for (var timeoutSupplier : timeoutSuppliers) timeoutSupplier.addRequest(request);
+    if (handler != null)
+      handler.addRequest(
+          new RequestImpl(ftpRequest.getArgument(), ftpRequest.getCommand(), receivedTime));
 
     ftpIoSession.write(new DefaultFtpReply(reply.getCode(), reply.getMessage()));
   }
 
   @Override
-  public void removeTimeoutSupplier(TimeoutSupplier<Request> timeoutSupplier) {
-    LOGGER.log(Level.FINE, MESSAGE, new Object[] {"Remov", ""});
-    timeoutSuppliers.remove(timeoutSupplier);
+  public void setHandler(
+      io.github.henryssondaniel.teacup.protocol.server.Handler<? super Request> handler) {
+    this.handler = handler;
   }
 
   @Override
