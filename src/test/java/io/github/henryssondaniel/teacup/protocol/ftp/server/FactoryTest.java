@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -55,7 +55,7 @@ class FactoryTest {
   void createContextBuilder() {
     var reply = mock(Reply.class);
     assertThat(Factory.createContextBuilder(reply)).isExactlyInstanceOf(ContextBuilderImpl.class);
-    verifyZeroInteractions(reply);
+    verifyNoInteractions(reply);
   }
 
   @Test
@@ -74,8 +74,8 @@ class FactoryTest {
     assertThat(Factory.createServer(configuration)).isExactlyInstanceOf(Simple.class);
 
     verifyConfiguration();
-    verifyZeroInteractions(clientConfiguration);
-    verifyZeroInteractions(sslConfiguration);
+    verifyNoInteractions(clientConfiguration);
+    verifyNoInteractions(sslConfiguration);
   }
 
   @Test

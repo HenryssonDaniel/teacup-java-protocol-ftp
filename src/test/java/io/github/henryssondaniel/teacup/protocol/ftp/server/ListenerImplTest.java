@@ -3,8 +3,8 @@ package io.github.henryssondaniel.teacup.protocol.ftp.server;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 import java.lang.reflect.Field;
 import org.apache.ftpserver.listener.Listener;
@@ -48,7 +48,7 @@ class ListenerImplTest {
   }
 
   private void verifyParameters() {
-    verifyZeroInteractions(handler);
+    verifyNoInteractions(handler);
 
     verify(listenerFactory).getDataConnectionConfiguration();
     verify(listenerFactory).getIdleTimeout();

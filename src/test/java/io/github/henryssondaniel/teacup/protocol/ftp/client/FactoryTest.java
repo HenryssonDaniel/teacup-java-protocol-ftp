@@ -2,7 +2,7 @@ package io.github.henryssondaniel.teacup.protocol.ftp.client;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import javax.net.ssl.SSLContext;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class FactoryTest {
     var sslContext = mock(SSLContext.class);
     assertThat(Factory.createSecureClient(false, sslContext)).isExactlyInstanceOf(Secure.class);
 
-    verifyZeroInteractions(sslContext);
+    verifyNoInteractions(sslContext);
   }
 
   @Test
