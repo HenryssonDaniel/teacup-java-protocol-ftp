@@ -37,8 +37,9 @@ class Simple extends Base<Context, Handler, Request> {
 
   @Override
   protected Handler createProtocolContext(
-      Context context, io.github.henryssondaniel.teacup.protocol.server.Handler<Request> handler1) {
-    handler.setHandler(handler1);
+      Context context,
+      io.github.henryssondaniel.teacup.protocol.server.Handler<Request> requestHandler) {
+    handler.setHandler(requestHandler);
     handler.setReply(context.getReply());
 
     return handler;

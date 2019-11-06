@@ -14,11 +14,16 @@ import org.apache.ftpserver.ftplet.FtpRequest;
 import org.apache.ftpserver.impl.FtpIoSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 class HandlerImplTest {
   private final FtpIoSession ftpIoSession = mock(FtpIoSession.class);
   private final FtpRequest ftpRequest = mock(FtpRequest.class);
   private final Handler handler = new HandlerImpl();
+  private final Reply reply = mock(Reply.class);
+
+  @Mock
+  private io.github.henryssondaniel.teacup.protocol.server.Handler<? super Request> requestHandler;
 
   @BeforeEach
   void beforeEach() {
@@ -32,18 +37,21 @@ class HandlerImplTest {
 
   @Test
   void messageReceived() throws Exception {
-    var reply = mock(Reply.class);
+    handler.setHandler(requestHandler);
     handler.setReply(reply);
-
     handler.messageReceived(ftpIoSession, ftpRequest);
 
-    verify(ftpIoSession).resetState();
-    verify(ftpIoSession).write(any(DefaultFtpReply.class));
-    verifyNoMoreInteractions(ftpIoSession);
+    verify(ftpRequest).getArgument();
+    verify(ftpRequest).getCommand();
+    verifyMessageReceived();
+  }
 
-    verify(ftpRequest).getReceivedTime();
-    verify(ftpRequest).getRequestLine();
-    verifyNoMoreInteractions(ftpRequest);
+  @Test
+  void messageReceivedWhenNoHandler() throws Exception {
+    handler.setReply(reply);
+    handler.messageReceived(ftpIoSession, ftpRequest);
+
+    verifyMessageReceived();
   }
 
   @Test
@@ -53,5 +61,15 @@ class HandlerImplTest {
 
     verifyNoInteractions(ftpIoSession);
     verifyNoInteractions(ftpRequest);
+  }
+
+  private void verifyMessageReceived() {
+    verify(ftpIoSession).resetState();
+    verify(ftpIoSession).write(any(DefaultFtpReply.class));
+    verifyNoMoreInteractions(ftpIoSession);
+
+    verify(ftpRequest).getReceivedTime();
+    verify(ftpRequest).getRequestLine();
+    verifyNoMoreInteractions(ftpRequest);
   }
 }
