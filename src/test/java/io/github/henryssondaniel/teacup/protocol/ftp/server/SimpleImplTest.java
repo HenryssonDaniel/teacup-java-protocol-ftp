@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class SimpleTest {
+class SimpleImplTest {
   private final Context context = mock(Context.class);
   private final FtpServer ftpServer = mock(FtpServer.class);
   private final Handler handler = mock(Handler.class);
   private final Reply reply = mock(Reply.class);
-  private final Simple simple = new Simple(ftpServer, handler);
+  private final SimpleBase simpleBase = new SimpleImpl(ftpServer, handler);
 
   @Mock private io.github.henryssondaniel.teacup.protocol.server.Handler<Request> handlerRequest;
 
@@ -35,7 +35,7 @@ class SimpleTest {
 
   @Test
   void createProtocolContext() {
-    simple.createProtocolContext(context, handlerRequest);
+    simpleBase.createProtocolContext(context, handlerRequest);
 
     verify(context).getReply();
     verifyNoMoreInteractions(context);
@@ -51,7 +51,7 @@ class SimpleTest {
 
   @Test
   void getKey() {
-    assertThat(simple.getKey(context)).isEqualTo("key");
+    assertThat(simpleBase.getKey(context)).isEqualTo("key");
 
     verifyNoInteractions(context);
     verifyNoInteractions(ftpServer);
@@ -60,7 +60,7 @@ class SimpleTest {
 
   @Test
   void isEquals() {
-    assertThat(simple.isEquals(context, handler)).isTrue();
+    assertThat(simpleBase.isEquals(context, handler)).isTrue();
 
     verify(context).getReply();
     verifyNoMoreInteractions(context);
@@ -75,7 +75,7 @@ class SimpleTest {
   void isEqualsWhenNotEqualCode() {
     when(reply.getCode()).thenReturn(1, 0);
 
-    assertThat(simple.isEquals(context, handler)).isFalse();
+    assertThat(simpleBase.isEquals(context, handler)).isFalse();
 
     verify(context).getReply();
     verifyNoMoreInteractions(context);
@@ -90,7 +90,7 @@ class SimpleTest {
   void isEqualsWhenNotEqualMessage() {
     when(reply.getMessage()).thenReturn("1", "0");
 
-    assertThat(simple.isEquals(context, handler)).isFalse();
+    assertThat(simpleBase.isEquals(context, handler)).isFalse();
 
     verify(context).getReply();
     verifyNoMoreInteractions(context);
@@ -103,7 +103,7 @@ class SimpleTest {
 
   @Test
   void serverCleanup() {
-    simple.serverCleanup(handler);
+    simpleBase.serverCleanup(handler);
 
     verifyNoInteractions(ftpServer);
 
@@ -113,7 +113,7 @@ class SimpleTest {
 
   @Test
   void setUp() throws FtpException {
-    simple.setUp();
+    simpleBase.setUp();
 
     verify(ftpServer).start();
     verifyNoMoreInteractions(ftpServer);
@@ -125,7 +125,7 @@ class SimpleTest {
   void setUpWhenException() throws FtpException {
     doThrow(new FtpException("test")).when(ftpServer).start();
 
-    simple.setUp();
+    simpleBase.setUp();
 
     verify(ftpServer).start();
     verifyNoMoreInteractions(ftpServer);
@@ -135,7 +135,7 @@ class SimpleTest {
 
   @Test
   void tearDown() {
-    simple.tearDown();
+    simpleBase.tearDown();
 
     verify(ftpServer).stop();
     verifyNoMoreInteractions(ftpServer);

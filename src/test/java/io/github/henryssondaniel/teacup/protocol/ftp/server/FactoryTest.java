@@ -71,7 +71,7 @@ class FactoryTest {
     when(configuration.getPort()).thenReturn(null);
     when(configuration.getSslConfiguration()).thenReturn(null);
 
-    assertThat(Factory.createServer(configuration)).isExactlyInstanceOf(Simple.class);
+    assertThat(Factory.createServer(configuration)).isExactlyInstanceOf(SimpleImpl.class);
 
     verifyConfiguration();
     verifyNoInteractions(clientConfiguration);
@@ -88,7 +88,7 @@ class FactoryTest {
     when(clientConfiguration.getIdleTime()).thenReturn(null);
 
     try {
-      assertThat(Factory.createServer(configuration)).isExactlyInstanceOf(Simple.class);
+      assertThat(Factory.createServer(configuration)).isExactlyInstanceOf(SimpleImpl.class);
 
       verifyConfiguration();
       verifyClientConfiguration();
@@ -118,7 +118,7 @@ class FactoryTest {
     when(sslConfiguration.getTruststoreType()).thenReturn(TYPE);
 
     try {
-      assertThat(Factory.createServer(configuration)).isExactlyInstanceOf(Simple.class);
+      assertThat(Factory.createServer(configuration)).isExactlyInstanceOf(SimpleImpl.class);
 
       verifyConfiguration();
       verifyClientConfiguration();
@@ -131,7 +131,7 @@ class FactoryTest {
 
   @Test
   void createServerWithoutConfiguration() {
-    assertThat(Factory.createServer()).isExactlyInstanceOf(Simple.class);
+    assertThat(Factory.createServer()).isExactlyInstanceOf(SimpleImpl.class);
   }
 
   @Test

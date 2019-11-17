@@ -96,7 +96,7 @@ public enum Factory {
     ftpServerFactory.addListener(
         "default", createListener(configuration, new ListenerFactoryImpl(handler)));
 
-    return new Simple(ftpServerFactory.createServer(), handler);
+    return new SimpleImpl(ftpServerFactory.createServer(), handler);
   }
 
   /**
